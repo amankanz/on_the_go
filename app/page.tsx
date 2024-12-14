@@ -195,6 +195,7 @@ export default function Home() {
   const [carsList, setCarsList] = useState<Car[]>([]);
   const [loading, setLoading] = useState(false); // Button loading state
   const [fetchedCount, setFetchedCount] = useState(0); // Track total fetched cars
+  const [carsOrgList, setCarsOrgList] = useState<Car[]>([]);
   const TOTAL_CARS = 31; // Total cars in the database
   const LIMIT = 4; // Number of cars to fetch per request
 
@@ -222,6 +223,8 @@ export default function Home() {
         return uniqueCars;
       });
 
+      setCarsOrgList(result?.carLists);
+
       setFetchedCount((prev) => prev + result.carLists.length); // Update fetched count
     } catch (error) {
       console.error("Error fetching cars:", error);
@@ -230,11 +233,29 @@ export default function Home() {
     }
   };
 
+  const filterCarListByBrand = (brand: string) => {
+    const filterList = carsOrgList.filter((item) => item.carBrand === brand);
+
+    setCarsList(filterList);
+  };
+
+  const orderCarList = (order: number) => {
+    const sortedData = [...carsOrgList].sort((a, b) =>
+      order == -1 ? a.price - b.price : b.price - a.price
+    );
+
+    setCarsList(sortedData);
+  };
+
   return (
     <main className="p-5 sm:px-10 md:px-20">
       <Hero />
       <SearchInput />
-      <CarsFilterOption />
+      <CarsFilterOption
+        carsOrgList={carsOrgList}
+        setBrand={(value: string) => filterCarListByBrand(value)}
+        orderCarList={(value: string) => orderCarList(value)}
+      />
       <CarsList carsList={carsList} />
       {fetchedCount < TOTAL_CARS && (
         <button
