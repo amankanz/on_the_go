@@ -11,149 +11,34 @@ import { Car } from "@/libs/types";
 
 export default function Home() {
   const [carsList, setCarsList] = useState<Car[]>([]);
-
-  useEffect(() => {
-    getCarList_();
-  }, []);
-
-  const getCarList_ = async () => {
-    const result = await getCarsList();
-
-    setCarsList(result.carLists);
-
-    console.log("Car result:", result);
-  };
-
-  return (
-    <main className="p-5 sm:px-10 md:px-20">
-      <Hero />
-      <SearchInput />
-      <CarsFilterOption />
-      <CarsList carsList={carsList} />
-    </main>
-  );
-}
-*/
-
-/*
-
-"use client";
-
-import CarsFilterOption from "@/components/Home/CarsFilterOptions";
-import CarsList from "@/components/Home/CarsList";
-import Hero from "@/components/Home/Hero";
-import SearchInput from "@/components/Home/SearchInput";
-import { getCarsList } from "@/services";
-import { useEffect, useState } from "react";
-import { Car } from "@/libs/types";
-
-export default function Home() {
-  const [carsList, setCarsList] = useState<Car[]>([]);
-
-  useEffect(() => {
-    getCarList_();
-  }, []);
-
-  const getCarList_ = async () => {
-    const result = await getCarsList();
-
-    setCarsList(result.carLists);
-
-    console.log("Car result:", result);
-  };
-
-  return (
-    <main className="p-5 sm:px-10 md:px-20">
-      <Hero />
-      <SearchInput />
-      <CarsFilterOption />
-      <CarsList carsList={carsList} />
-    </main>
-  );
-}
-*/
-
-/*
-"use client";
-
-import CarsFilterOption from "@/components/Home/CarsFilterOptions";
-import CarsList from "@/components/Home/CarsList";
-import Hero from "@/components/Home/Hero";
-import SearchInput from "@/components/Home/SearchInput";
-import { getCarsList } from "@/services";
-import { useEffect, useState } from "react";
-import { Car } from "@/libs/types";
-
-export default function Home() {
-  const [carsList, setCarsList] = useState<Car[]>([]);
-  const LIMIT = 4; // Limit the number of cars to fetch to 4
-
-  useEffect(() => {
-    getCarList_(); // Fetch cars on component mount
-  }, []);
-
-  const getCarList_ = async () => {
-    try {
-      const result = await getCarsList(LIMIT); // Pass the limit as an argument
-      setCarsList(result.carLists); // Update state with the fetched cars
-      console.log("Fetched Cars:", result.carLists);
-    } catch (error) {
-      console.error("Error fetching cars:", error);
-    }
-  };
-
-  return (
-    <main className="p-5 sm:px-10 md:px-20">
-      <Hero />
-      <SearchInput />
-      <CarsFilterOption />
-      <CarsList carsList={carsList} />
-      <button
-        onClick={getCarList_}
-        className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md mx-auto block"
-      >
-        Load More
-      </button>
-    </main>
-  );
-}
-*/
-
-/*
-"use client";
-
-import CarsFilterOption from "@/components/Home/CarsFilterOptions";
-import CarsList from "@/components/Home/CarsList";
-import Hero from "@/components/Home/Hero";
-import SearchInput from "@/components/Home/SearchInput";
-import { getCarsList } from "@/services";
-import { useEffect, useState } from "react";
-import { Car } from "@/libs/types";
-
-export default function Home() {
-  const [carsList, setCarsList] = useState<Car[]>([]);
-  const [loading, setLoading] = useState(false); // Button loading state
-  const [fetchedCount, setFetchedCount] = useState(0); // Track total fetched cars
+  const [loading, setLoading] = useState(false);
+  const [fetchedCount, setFetchedCount] = useState(0);
   const TOTAL_CARS = 31; // Total cars in the database
-  const LIMIT = 4; // Number of cars to fetch per request
+  const LIMIT = 4;
 
+  // Fetch cars on mount
   useEffect(() => {
-    getCarList_(); // Fetch initial batch of cars on component mount
+    getCarList_();
   }, []);
 
   const getCarList_ = async () => {
-    if (fetchedCount >= TOTAL_CARS) return; // Stop fetching if all cars are loaded
+    // Prevent fetching more cars than available
+    if (fetchedCount >= TOTAL_CARS) return;
 
-    setLoading(true); // Set loading state to true
-
+    setLoading(true);
     try {
-      const result = await getCarsList(LIMIT); // Fetch 4 cars at a time
-      setCarsList((prev) => [...prev, ...result.carLists]); // Append new cars to the list
-      setFetchedCount((prev) => prev + result.carLists.length); // Update fetched count
+      const result = await getCarsList(LIMIT);
+      setCarsList((prev) => [
+        ...prev,
+        ...result.carLists.filter(
+          (newCar) => !prev.some((existingCar) => existingCar.id === newCar.id)
+        ),
+      ]);
+      setFetchedCount((prev) => prev + result.carLists.length);
     } catch (error) {
       console.error("Error fetching cars:", error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -161,7 +46,11 @@ export default function Home() {
     <main className="p-5 sm:px-10 md:px-20">
       <Hero />
       <SearchInput />
-      <CarsFilterOption />
+      <CarsFilterOption
+        carsOrgList={carsList}
+        setBrand={() => {}}
+        orderCarList={() => {}}
+      />
       <CarsList carsList={carsList} />
       {fetchedCount < TOTAL_CARS && (
         <button
@@ -171,7 +60,90 @@ export default function Home() {
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
-          disabled={loading} // Disable the button while loading
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Load More"}
+        </button>
+      )}
+    </main>
+  );
+}
+*/
+
+/*
+"use client";
+
+import CarsFilterOption from "@/components/Home/CarsFilterOptions";
+import CarsList from "@/components/Home/CarsList";
+import Hero from "@/components/Home/Hero";
+import SearchInput from "@/components/Home/SearchInput";
+import { getCarsList } from "@/services";
+import { useEffect, useState } from "react";
+import { Car } from "@/libs/types";
+
+export default function Home() {
+  const [carsList, setCarsList] = useState<Car[]>([]);
+  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [fetchedCount, setFetchedCount] = useState(0);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+
+  const TOTAL_CARS = 31; // Total cars in the database
+  const LIMIT = 4;
+
+  // Fetch cars on mount
+  useEffect(() => {
+    getCarList_();
+  }, []);
+
+  // Filter cars when selected brand changes
+  useEffect(() => {
+    if (selectedBrand) {
+      setFilteredCars(carsList.filter((car) => car.carBrand === selectedBrand));
+    } else {
+      setFilteredCars(carsList);
+    }
+  }, [selectedBrand, carsList]);
+
+  const getCarList_ = async () => {
+    if (fetchedCount >= TOTAL_CARS) return;
+
+    setLoading(true);
+    try {
+      const result = await getCarsList(LIMIT);
+      setCarsList((prev) => [
+        ...prev,
+        ...result.carLists.filter(
+          (newCar) => !prev.some((existingCar) => existingCar.id === newCar.id)
+        ),
+      ]);
+      setFetchedCount((prev) => prev + result.carLists.length);
+    } catch (error) {
+      console.error("Error fetching cars:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <main className="p-5 sm:px-10 md:px-20">
+      <Hero />
+      <SearchInput />
+      <CarsFilterOption
+        carsOrgList={carsList}
+        setBrand={setSelectedBrand} // Pass handler to update selected brand
+        orderCarList={() => {}}
+      />
+      <CarsList carsList={filteredCars} /> {/* Pass filtered cars =/}
+      {fetchedCount < TOTAL_CARS && (
+        <button
+          onClick={getCarList_}
+          className={`mt-6 px-6 py-2 rounded-md mx-auto block ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
+          }`}
+          disabled={loading}
         >
           {loading ? "Loading..." : "Load More"}
         </button>
@@ -193,58 +165,57 @@ import { Car } from "@/libs/types";
 
 export default function Home() {
   const [carsList, setCarsList] = useState<Car[]>([]);
-  const [loading, setLoading] = useState(false); // Button loading state
-  const [fetchedCount, setFetchedCount] = useState(0); // Track total fetched cars
-  const [carsOrgList, setCarsOrgList] = useState<Car[]>([]);
-  const TOTAL_CARS = 31; // Total cars in the database
-  const LIMIT = 4; // Number of cars to fetch per request
+  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [fetchedCount, setFetchedCount] = useState(0);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<number | null>(null); // State for sorting order
 
+  const TOTAL_CARS = 31; // Total cars in the database
+  const LIMIT = 4;
+
+  // Fetch cars on mount
   useEffect(() => {
-    getCarList_(); // Fetch initial batch of cars on component mount
+    getCarList_();
   }, []);
 
+  // Filter and sort cars when dependencies change
+  useEffect(() => {
+    let updatedCars = [...carsList];
+
+    // Filter by brand
+    if (selectedBrand) {
+      updatedCars = updatedCars.filter((car) => car.carBrand === selectedBrand);
+    }
+
+    // Sort by price
+    if (sortOrder !== null) {
+      updatedCars.sort((a, b) =>
+        sortOrder === -1 ? a.price - b.price : b.price - a.price
+      );
+    }
+
+    setFilteredCars(updatedCars);
+  }, [selectedBrand, sortOrder, carsList]);
+
   const getCarList_ = async () => {
-    if (fetchedCount >= TOTAL_CARS) return; // Stop fetching if all cars are loaded
+    if (fetchedCount >= TOTAL_CARS) return;
 
-    setLoading(true); // Set loading state to true
-
+    setLoading(true);
     try {
-      const result = await getCarsList(LIMIT); // Fetch 4 cars at a time
-
-      setCarsList((prev) => {
-        // Merge current list with new cars, filtering out duplicates by ID
-        const uniqueCars = [
-          ...prev,
-          ...result.carLists.filter(
-            (newCar) =>
-              !prev.some((existingCar) => existingCar.id === newCar.id)
-          ),
-        ];
-        return uniqueCars;
-      });
-
-      setCarsOrgList(result?.carLists);
-
-      setFetchedCount((prev) => prev + result.carLists.length); // Update fetched count
+      const result = await getCarsList(LIMIT);
+      setCarsList((prev) => [
+        ...prev,
+        ...result.carLists.filter(
+          (newCar) => !prev.some((existingCar) => existingCar.id === newCar.id)
+        ),
+      ]);
+      setFetchedCount((prev) => prev + result.carLists.length);
     } catch (error) {
       console.error("Error fetching cars:", error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
-  };
-
-  const filterCarListByBrand = (brand: string) => {
-    const filterList = carsOrgList.filter((item) => item.carBrand === brand);
-
-    setCarsList(filterList);
-  };
-
-  const orderCarList = (order: number) => {
-    const sortedData = [...carsOrgList].sort((a, b) =>
-      order == -1 ? a.price - b.price : b.price - a.price
-    );
-
-    setCarsList(sortedData);
   };
 
   return (
@@ -252,11 +223,11 @@ export default function Home() {
       <Hero />
       <SearchInput />
       <CarsFilterOption
-        carsOrgList={carsOrgList}
-        setBrand={(value: string) => filterCarListByBrand(value)}
-        orderCarList={(value: string) => orderCarList(value)}
+        carsOrgList={carsList}
+        setBrand={setSelectedBrand} // Pass handler to update selected brand
+        orderCarList={setSortOrder} // Pass handler to update sort order
       />
-      <CarsList carsList={carsList} />
+      <CarsList carsList={filteredCars} /> {/* Pass filtered and sorted cars */}
       {fetchedCount < TOTAL_CARS && (
         <button
           onClick={getCarList_}
@@ -265,7 +236,7 @@ export default function Home() {
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
-          disabled={loading} // Disable the button while loading
+          disabled={loading}
         >
           {loading ? "Loading..." : "Load More"}
         </button>
