@@ -18,3 +18,11 @@ export interface Car {
 export interface CarsListResponse {
   carLists: Car[];
 }
+
+export interface StoreLocation {
+  address: string;
+}
+
+export interface StoreLocations {
+  storeLocations: StoreLocation[]; // An array of StoreLocation objects
+}
