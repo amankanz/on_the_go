@@ -32,7 +32,7 @@ function BookingModal({ selectedCar }: BookingModalProps) {
           <CarCard car={selectedCar} />
         </div>
         <div>
-          <Form ref={formRef} />
+          <Form ref={formRef} car={selectedCar} />
         </div>
       </div>
       <div className="modal-action gap-5">
