@@ -149,16 +149,35 @@ export default function Home() {
     getCarList_();
   }, []);
 
+  // useEffect(() => {
+  //   let updatedCars = [...carsList];
+  //   if (selectedBrand) {
+  //     updatedCars = updatedCars.filter((car) => car.carBrand === selectedBrand);
+  //   }
+  //   if (sortOrder !== null) {
+  //     updatedCars.sort((a, b) =>
+  //       sortOrder === -1 ? a.price - b.price : b.price - a.price
+  //     );
+  //   }
+  //   setFilteredCars(updatedCars);
+  // }, [selectedBrand, sortOrder, carsList]);
+
+  // Filter and sort cars when dependencies change
   useEffect(() => {
     let updatedCars = [...carsList];
+
+    // Filter by brand
     if (selectedBrand) {
       updatedCars = updatedCars.filter((car) => car.carBrand === selectedBrand);
     }
+
+    // Sort by price
     if (sortOrder !== null) {
       updatedCars.sort((a, b) =>
         sortOrder === -1 ? a.price - b.price : b.price - a.price
       );
     }
+
     setFilteredCars(updatedCars);
   }, [selectedBrand, sortOrder, carsList]);
 
@@ -202,6 +221,7 @@ export default function Home() {
         <div ref={carsSectionRef}>
           <CarsList carsList={filteredCars} />
         </div>
+        {/* Pass filtered and sorted cars */}
         {showToastMsg && <ToastMsg msg={showToastMsg} />}
         {fetchedCount < TOTAL_CARS && (
           <button

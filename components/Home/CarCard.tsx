@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FaGasPump } from "react-icons/fa";
 import { MdAirlineSeatReclineNormal } from "react-icons/md";
 import { PiSteeringWheelFill } from "react-icons/pi";
+import { FaArrowRight } from "react-icons/fa6";
 
 interface CarProps {
   car: Car;
@@ -23,7 +24,7 @@ function CarCard({ car }: CarProps) {
   };
 
   return (
-    <div className="group bg-slate-200 p-2 hover:bg-white hover:border-[1px] cursor-pointer duration-200 border-blue-500 rounded-xl w-40 md:w-56 lg:w-64 mb-12">
+    <div className="group bg-slate-200 p-2 hover:bg-white hover:border-[1px] cursor-pointer duration-200 border-blue-500 rounded-xl w-40 md:w-64 lg:w-64 mb-12">
       <h2 className="text-sm md:text-lg lg:text-xl font-medium mb-2">
         {car.name}
       </h2>
@@ -43,7 +44,7 @@ function CarCard({ car }: CarProps) {
         onError={handleImageError}
         onLoad={handleImageLoad}
       />
-      <div className="flex justify-evenly">
+      <div className="group-hover:hidden flex justify-evenly">
         <div className="text-center text-gray-500">
           <PiSteeringWheelFill className="w-full text-xl mb-2" />
           <h2 className="text-xs md:text-sm lg:text-sm font-light">
@@ -63,8 +64,13 @@ function CarCard({ car }: CarProps) {
           </h2>
         </div>
       </div>
-      <button className="hidden group-hover:flex justify-between py-2 px-5 rounded-lg text-white bg-gradient-to-r from-blue-400 to-blue-600 w-full">
-        Rent Now
+      <button className="hidden group-hover:flex items-center justify-between py-2 px-2 rounded-lg text-white bg-gradient-to-r from-blue-400 to-blue-600 w-full">
+        <span className="text-nowrap text-sm md:text-base lg:text-base">
+          Rent Now
+        </span>
+        <span className="bg-blue-500 p-2 rounded-md">
+          <FaArrowRight />
+        </span>
       </button>
     </div>
   );
