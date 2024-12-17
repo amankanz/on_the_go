@@ -10,6 +10,7 @@ import NavBar from "@/components/NavBar";
 import { openSans } from "@/libs/fonts";
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "OnTheGo",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <SignedIn>
             <NavBar />
             {children}
+            <Footer />
           </SignedIn>
           <SignedOut>
             <div className="h-screen flex justify-center items-center bg-gray-100">
@@ -50,7 +52,7 @@ export default function RootLayout({
                     className="w-full object-contain"
                   />
                   <p className="text-sm text-gray-500 mt-4">
-                    &copy; 2024 by{" "}
+                    &copy; {new Date().getFullYear()} by{" "}
                     <Link
                       href={"https://kanezaio.netlify.app/"}
                       target="_blank"

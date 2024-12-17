@@ -23,9 +23,11 @@ function CarCard({ car }: CarProps) {
   };
 
   return (
-    <div className="group bg-slate-200 p-2 hover:bg-white hover:border-[1px] cursor-pointer duration-200 border-blue-500 rounded-xl w-64 mb-12">
-      <h2 className="text-xl font-medium mb-2">{car.name}</h2>
-      <h3 className="text-2xl font-bold mb-2">
+    <div className="group bg-slate-200 p-2 hover:bg-white hover:border-[1px] cursor-pointer duration-200 border-blue-500 rounded-xl w-40 md:w-56 lg:w-64 mb-12">
+      <h2 className="text-sm md:text-lg lg:text-xl font-medium mb-2">
+        {car.name}
+      </h2>
+      <h3 className="text-sm md:text-xl lg:text-2xl font-bold mb-2">
         <span className="text-xs font-light">$</span>
         {car.price}
         <span className="text-xs font-light"> /day</span>
@@ -44,17 +46,19 @@ function CarCard({ car }: CarProps) {
       <div className="flex justify-evenly">
         <div className="text-center text-gray-500">
           <PiSteeringWheelFill className="w-full text-xl mb-2" />
-          <h2 className="text-sm font-light">{car.carType || "N/A"}</h2>
+          <h2 className="text-xs md:text-sm lg:text-sm font-light">
+            {car.carType || "N/A"}
+          </h2>
         </div>
         <div className="text-center text-gray-500">
           <MdAirlineSeatReclineNormal className="w-full text-xl mb-2" />
-          <h2 className="text-sm font-light">
+          <h2 className="text-xs md:text-sm lg:text-sm font-light">
             {car.seat ? `${car.seat} Seat` : "Unknown Seats"}
           </h2>
         </div>
         <div className="text-center text-gray-500">
           <FaGasPump className="w-full text-xl mb-2" />
-          <h2 className="text-sm font-light">
+          <h2 className="text-xs md:text-sm lg:text-sm font-light">
             {car.price ? `${car.price} MPG` : "N/A MPG"}
           </h2>
         </div>
