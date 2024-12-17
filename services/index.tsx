@@ -60,6 +60,8 @@ export const storeLocations = async (): Promise<StoreLocations> => {
 };
 
 // BOOKING
+
+/*
 // Define the type for form values
 interface FormValue {
   location: string;
@@ -107,11 +109,23 @@ export const createBooing = async (formValue: FormValue) => {
     throw error;
   }
 };
+*/
 
-/*
+// Define the type for form values
+interface FormValue {
+  location: string;
+  pickUpDate: string;
+  dropOffDate: string;
+  pickUpTime: string;
+  dropOffTime: string;
+  contactNumber: string;
+  userName: string;
+  carId: string;
+}
+
 // Define headers with an authorization token (if required)
 const headers = {
-  Authorization: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MzQzNDQ1NjQsImF1ZCI6WyJodHRwczovL2FwaS1hcC1zb3V0aC0xLmh5Z3JhcGguY29tL3YyL2NtNGw0cDZqeDAxcGEwN3VzbmpxeGgzMDkvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtYXAtc291dGgtMS5oeWdyYXBoLmNvbS8iLCJzdWIiOiI1YjhhOWI2Ni1iMjBlLTQ1ZTAtYjJkMS05ZmEzOWY4NWE3MGYiLCJqdGkiOiJjbTRxdnoyazQwemo0MDdwa2gweGVkdHo4In0.LwaHAi-kLUtgUr4OgcoR5-ndmlFgbNBRfUwcz8Ewc-86--ZYXm1MEaHAaS6z7iOnj52y8F6PuEurMWUXLhYGbrM6Z1ruNCCPuv3IED_G5HXxQ81iLvq8oUz6dO5sV3xBTy5PFG_9uBelFGBjAd9ot7MCXEMoJGGqyjiSNIwVt5Ck9YdcOFNSXn5_iITs6mNUcgDKOffzuYeXt3mRwcN4n_kC6ktGzcIS7VGgnGRvvx0fEFewcHLOJIt16EyPhsE2bii0ge8k3FdYHsOYATc94DnjSMRH4idFhgxArzR9EyMtKqrx7dqC0hkETU-5fGnC06BwjjIHdtpgDe9O75hQR-f7Fke7gnqI0XcypwcKwmN9MiSZ_omi_kIgBmb5oJRwbJJf7HZnopbrwU-RTD2J_1w8R9Arl8gGQDJtfzevn70n4ic9MLh3tQeLge3sRt21EufWuLW39Gttrlu6t8W5Gyw2_JfERaZ74waEdgN46oUerNrK-xKsQn9Y_LUHfxt7zDqrTfV-q3rVlQH-MfbEDjeHw_ncvkheNVjX22ASps065`, // Replace with actual token
+  Authorization: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MzQ0MzE3MDYsImF1ZCI6WyJodHRwczovL2FwaS1hcC1zb3V0aC0xLmh5Z3JhcGguY29tL3YyL2NtNGw0cDZqeDAxcGEwN3VzbmpxeGgzMDkvbWFzdGVyIiwibWFuYWdlbWVudC1uZXh0LmdyYXBoY21zLmNvbSJdLCJpc3MiOiJodHRwczovL21hbmFnZW1lbnQtYXAtc291dGgtMS5oeWdyYXBoLmNvbS8iLCJzdWIiOiI1OGZjNDU5ZS01Zjg1LTRjYTAtOWQzZi0xMTM2YmJiNzlkYWEiLCJqdGkiOiJjbTRzYnV0c28xZGU4MDdwa2RnN28xcW92In0.1LqTAb2jtqPes2VBlsRqula-_weTKij3OaKqFBk9rs0Z751ddBRKMndlhZb30lArGUJv-sjClqWxb4BDj8SGsguViWmms-Zlg6oDBqgQel4J6CP8VStUxALDCx8KVsC3I0Q7Ky6DRgs_eKJKK1GlFzW-CHz6Hw0ilRBHoBahZ8tlUfdfIdZYj-2odrz6LuajZTdEUss46TzxXx80i3azuQXNeb-t4HL2r3PU2_P2JbEsJ7Syv2z0zbnH-MpGlMR3UxvVIYGdXBYsKZIIZ7zvaKJJVIVvlBlNQZEJRgR6uNksEkXI0W93t-oXJ3SpB81vdBdNuYf5zQObj6DGoaluvgkAmcnDcBzTWxBHmOSbZbjpSZSBrnRyrIZg9oZLDQoPxOVaqLBqdprHWxHFUgjkNa5N4wFuqoh9Mos9dVtgMBvOj0GzkDHm3VqdKZWIeegJAHTDPmJ8J7uh5Ep-kz0r8NvZ3DFuwgiE4pPG7FCkzmruQ5xZKcZE0W6w6tLa-QFwuB0Dp2kYjkc2nSG0fsdb2j0w1a1dhgWrTsAg0SpWWAUTZ0u0khKsetf-YYtsZfsHQYQaiZ7ma5nv85WVf1L9TUKGCK9seTBH3wyrPI4RoJiJSySpDmP2mn8v3YAyiLUtRkf8SI0s9UaX6LV4ngmqLWQpXVKqwrO5zbrlriMSMls`, // Replace with actual token
 };
 
 export const createBooing = async (formValue: FormValue) => {
@@ -154,4 +168,3 @@ export const createBooing = async (formValue: FormValue) => {
     throw error;
   }
 };
-*/
